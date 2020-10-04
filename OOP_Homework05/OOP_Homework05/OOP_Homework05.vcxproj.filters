@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Training01.cpp">
+    <ClCompile Include="Homework01.cpp">
       <Filter>리소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Training02.cpp">
+    <ClCompile Include="Homework02.cpp">
       <Filter>리소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="example01.cpp">
+    <ClCompile Include="Homework03_01.cpp">
       <Filter>리소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="example02.cpp">
+    <ClCompile Include="Homework03_02.cpp">
       <Filter>리소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

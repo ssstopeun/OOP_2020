@@ -5,154 +5,141 @@
 class Animal {
 protected:
 	int age;
-
 public:
 	Animal(int age) : age(age) {};
+	virtual ~Animal() {}	//가상 소멸자의 선언
+
 	virtual void printString() = 0;
-	virtual void total_count(int a) = 0;
+	virtual int total_count(int a) = 0;
+
 };
 
-class Dog :public Animal {
+class Dog : public Animal {
 protected:
 	std::string name;
 	int count = 1;
 	bool isSmall;
 public:
-	Dog(std::string name, int age) :name(name), Animal(age) {};
-
-	void printString() {
-		std::cout << "Dog Name : " << name << " / Dog's age : " << age << " / ";
-		std::cout << "isSmallDog? = " << Small() << " / ";
-		printSpecies();
+	Dog(std::string name, int age, bool isSmall) : name(name), Animal(age), isSmall(isSmall){
 	};
+	void printString() {
+		std::cout << "Dog Name: " << name << " / Dog's Average age: " << age << " / ";
+		std::cout << " isSmallDog? = " << isSmall<<" / ";
+	}
 	int operator+(Dog& d) {
 		return this->count + d.count;
-	};
-	int operator+(int a) {
-		return this->count + a;
 	}
-	void total_count(int a) {
-		std::cout << "Dog count : " << a << std::endl;
+	virtual bool Small() {
+		return false;
+	}
+	int total_count(int a) {
+		std::cout << "Dog count: "<< a << std::endl;
+		return a;
 	};
 
-	//가상함수 선언
-	virtual bool Small() = 0;
-	virtual void printSpecies() = 0;
+
+	virtual void printSepcies() = 0;
+
 
 };
 
 class Maltese : public Dog {
-public:
-	Maltese(std::string name, int age) : Dog(name, age) {};
-
-	void printSpecies() {
-		std::cout << "Dog's Species: Maltese" << std::endl;
+public:  
+	Maltese(std::string name, int age, bool isSmall) : Dog(name, age, isSmall) {
+		Maltese* maltese;
+	};
+	void printSepcies() {
+		std::cout << "Dog's Species: " << "Maltese" << std::endl;
 	}
 	bool Small() {
-		return true;
+		return this->isSmall;
 	}
 };
-
 class Poddle : public Dog {
 public:
-	Poddle(std::string name, int age) : Dog(name, age) {};
-
-	void printSpecies() {
-		std::cout << "Dog's Species: Poddle" << std::endl;
+	Poddle(std::string name, int age, bool isSmall) : Dog(name, age, isSmall) {
+		Poddle* poddle;
+	};
+	void printSepcies() {
+		std::cout << "Dog's Species: " << "Poddle" << std::endl;
 	}
 	bool Small() {
-		return true;
+		return this->isSmall;
 	}
 };
 
-class Retriever : public Dog {
-public:
-	Retriever(std::string name, int age) : Dog(name, age) {};
 
-	void printSpecies() {
-		std::cout << "Dog's Species: Retriever" << std::endl;
-	}
-	bool Small() {
-		return false;
-	}
-};
 
 class Bird : public Animal {
 protected:
 	int count = 1;
+	bool can_swim;
 public:
-	Bird(int age) : Animal(age) {};
-
+	Bird(int age,bool can_swim) : Animal(age) ,can_swim(can_swim) {};
 	void printString() {
-		std::cout << "Bird's Age : " << age << " / ";
-		swim();
-		printSound();
+		std::cout << "Bird's Average age: " << age << " / ";
+		std::cout << "canSwim? = " << can_swim << " / ";
 	}
+	int total_count(int a) {
+		std::cout << "Bird count: " << a << std::endl;
+		return a;
+	};
+	virtual void printSound() = 0;
+	virtual bool swim() {
+		return false;
+	}
+
 	int operator+(Bird& b) {
 		return this->count + b.count;
 	}
-	int operator+(int a) {
-		return this->count + a;
-	}
-	void total_count(int a) {
-		std::cout << "Bird count : " << a << std::endl;
-	}
-
-	//가상함수 선언
-	virtual void swim() = 0;
-	virtual void printSound() = 0;
 };
 class Eagle : public Bird {
 public:
-	Eagle(int age) : Bird(age) {};
-	void swim() {
-		std::cout << "CanSwim : " << false << " / ";
-	}
+	Eagle(int age, bool can_swim) : Bird(age, can_swim) {
+		
+	};
 	void printSound() {
-		std::cout << "Eagle's Sound : shriek" << std::endl;
+		std::cout << "Bird's Sound: " << "shriek" << std::endl;
+	};
+	bool swim() {
+		return this->can_swim;
 	}
-
 };
 class Sparrow : public Bird {
 public:
-	Sparrow(int age) : Bird(age) {};
-	void  swim() {
-		std::cout << "CanSwim : " << false << " / ";
-	}
+	Sparrow(int age, bool can_swim) : Bird(age, can_swim) {
+		Sparrow* sparrow;
+	};
 	void printSound() {
-		std::cout << "Sparrow's Sound : chatter" << std::endl;
-	}
-
-};
-class Duck : public Bird {
-public:
-	Duck(int age) : Bird(age) {};
-	void  swim() {
-		std::cout << "CanSwim : " << true << " / ";
-	}
-	void printSound() {
-		std::cout << "Duck's Sound : quack" << std::endl;
+		std::cout << "Bird's Sound: " << "chatter" << std::endl;
+	};
+	bool swim() {
+		return this->can_swim;
 	}
 };
 
 int main() {
-	Maltese maltese("Max", 5);
-	Poddle poddle("Coco", 7);
-	Retriever retriever("Happy", 3);
-	maltese.printString();
+	Maltese matese("max", 5,true);
+	Poddle poddle("coco", 7,true);
+
+	matese.printString();
+	matese.printSepcies();
 	poddle.printString();
-	retriever.printString();
+	poddle.printSepcies();
 
-	int b = (maltese + poddle);
-	retriever.total_count(retriever + b);
+	poddle.total_count(matese + poddle);
 
-	Eagle eagle(23);
-	Sparrow sparrow(3);
-	Duck duck(7);
+	Eagle eagle(6,true);
+	Sparrow sparrow(2,false);
+
 	eagle.printString();
+	eagle.printSound();
 	sparrow.printString();
-	duck.printString();
+	sparrow.printSound();
 
-	int a = (sparrow + duck);
-	duck.total_count(eagle + a);
-};
+	sparrow.total_count(eagle + sparrow);
+
+
+
+}
+
